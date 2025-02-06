@@ -48,7 +48,7 @@ Ensure you have the following installed on your system:
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/yourusername/multiplayer-tic-tac-toe_game.git
+   git clone https://github.com/yourusername/multiplayer-tic-tac-toe_Game.git
    cd multiplayer-tic-tac-toe
 
 2. Create Virtual Environment and Activate It
