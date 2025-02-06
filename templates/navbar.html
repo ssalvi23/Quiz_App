@@ -1,0 +1,25 @@
+<!-- navbar.html -->
+
+{% block content %}
+<div>
+  <nav class="bg-blue-500 p-4">
+    <div class="flex items-center justify-between">
+      <a href="/" class="text-white text-2xl font-semibold">Game Portal</a>
+      <div class="flex items-center space-x-4">
+        {% if username %}
+          <div class="text-white font-medium">
+            <span class="rounded-full w-8 h-8 bg-blue-700 text-white flex items-center justify-center">
+              {{ username[0]|upper }}
+            </span>
+          </div>
+          <a href="/profile" class="text-white">Profile</a>
+          <a href="/logout" class="text-white">Logout</a>
+        {% else %}
+          <a href="/login" class="text-white">Login</a>
+          <a href="/register" class="text-white">Register</a>
+        {% endif %}
+      </div>
+    </div>
+  </nav>
+</div>
+{% endblock %}

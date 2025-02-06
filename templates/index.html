@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Multiplayer Tic Tac Toe</title>
+
+  <!-- Stylesheets -->
+  <link rel="stylesheet" href="{{ url_for('static', filename='styles/styles.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='styles/navbar.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='styles/styles-design.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='styles/styles-logs.css') }}">
+</head>
+
+<body>
+  <!-- Navbar Section -->
+  <nav class="navbar">
+    <div class="navbar-container">
+      <a href="/" class="navbar-brand">Game Portal</a>
+      <div class="navbar-links">
+        {% if username %}
+          <div class="profile-info">
+           
+            <a href="/profile" class="profile-link">Profile</a>
+            <a href="/logout" class="profile-link">Logout</a>
+            <span class="profile-initials">{{ username[0]|upper }}</span>
+          </div>
+        {% else %}
+          <a href="/login" class="nav-link">Login</a>
+          <a href="/register" class="nav-link">Register</a>
+        {% endif %}
+      </div>
+    </div>
+  </nav>
+  
+
+  <!-- Main Content -->
+  <main>
+    <div class="greetings background show" id="greetingsBackground">
+      <div class="greetings-view show" id="greetings">
+        <h1>Tic Tac Toe Game</h1>
+        <div class="horizontal-line"></div>
+        <div class="tictacImage">
+          <img src="{{ url_for('static', filename='assets/path97.png') }}" alt="">
+          <img src="{{ url_for('static', filename='assets/drawing.png') }}" alt="">
+        </div>
+        <form action="">
+          <label for="gameRoom">Enter a game room name to join with another player:</label>
+          <input type="text" id="gameRoom" placeholder="Room Name" required="required">
+
+          <label for="playerName">Enter your username:</label>
+          <input type="text" id="playerName" placeholder="Player Name" required="required">
+
+          <button type="button" id="joinRoom">Join Room</button>
+        </form>
+      </div>
+    </div>
+
+    <div class="board-logs-container">
+      <div class="game-board-area">
+        <!-- Tic Tac Toe Board -->
+        <div class="board" id="board">
+          <div class="cell" data-cell></div>
+          <div class="cell" data-cell></div>
+          <div class="cell" data-cell></div>
+          <div class="cell" data-cell></div>
+          <div class="cell" data-cell></div>
+          <div class="cell" data-cell></div>
+          <div class="cell" data-cell></div>
+          <div class="cell" data-cell></div>
+          <div class="cell" data-cell></div>
+        </div>
+        <div class="winning-message" id="winningMessage">
+          <div data-winning-message-text></div>
+          <button id="restartButton">Restart</button>
+        </div>
+        <div class="game-board-area-button">
+          <button id="gameStart">Start Game</button>
+        </div>
+      </div>
+
+      <div class="logs" id="logs-container">
+        <div class="messaging-view show" id="messaging">
+          <!-- Messaging Section -->
+          <div class="messaging-header" id="messaging-header">
+            <div class="modal-header"></div>
+            <div class="connected-players" id="connected_players"></div>
+          </div>
+
+          <div class="msg" id="msg-area"></div>
+
+          <div class="logs message" id="log_msg">
+            <form class="messaging" id="send_msg" method="POST" action="#" autocomplete="off">
+              <input type="text" id="message" placeholder="Type a message">
+              <button type="submit" id="send">Send</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Scripts -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.1.2/socket.io.min.js"></script>
+  <script type="module" src="{{ url_for('static', filename='scripts/main.js') }}"></script>
+</body>
+</html>
