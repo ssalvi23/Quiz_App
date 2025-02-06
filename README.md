@@ -1,126 +1,68 @@
-# __Online Multiplayer Tic-Tac-Toe__
-#### Video Demo:  <URL HERE>
-#### Description: This web app is intended to be the online "paper" for classical Tic Tac Toe paper game. The app serves as the platform that allow to play the TTT game, alongside which is provided also a basic chat feature in order to facilitate players communication.
+# Multiplayer Tic-Tac-Toe Web Application 
 
-## __Macro Specification:__ 
--	An online “game board” to play a TTT game;
-    - Players must be able to communicate to each other;
--	Web App has to provide multi-rooms feature.
+A real-time multiplayer Tic-Tac-Toe web application built with Flask, SQLAlchemy, and Socket.IO, offering an interactive gaming experience for two players.
 
-<h2 style="text-align: center;">d-_-b</h2>
+## Features
 
-![Online Multiplayer Tic-Tac-Toe](./static/assets/tictactoe-online-multiplayer.gif)
+- **Real-time Multiplayer Gameplay**: Enjoy smooth and interactive gameplay with real-time updates using WebSocket.
+- **Secure Authentication**: Token-based user authentication with hashed passwords for secure access.
+- **Modern UI**: Built with HTML5, Tailwind CSS, and Vanilla JavaScript for a responsive and clean design.
+- **Database Integration**: SQLite powered database with SQLAlchemy ORM for seamless data management.
 
-## Tools and technologies:
+---
 
-Server Client communication based on [Socket.IO](https://socket.io/docs/v4/) protocol
-![Socket.IO](https://socket.io/images/bidirectional-communication2.png)
+##  Tech Stack
 
+### Backend
+- **Flask**: Lightweight Python web framework for routing and server-side logic.  
+- **SQLAlchemy**: ORM for database interaction and management.  
+- **Socket.IO**: Enables real-time bi-directional communication.  
+- **JWT Authentication**: Secure token-based user authentication.  
 
-|**Client Side <sup>*</sup> :**                |**Server side:**                        |
-|:---                                          |---:                                    |
-|HTML, CSS, JS (including SocketIO framework)  |Python frameworks: Flask, Flask SocketIO|
+### Frontend
+- **HTML5**: Semantic structure for web pages.  
+- **JavaScript**: Adds interactivity and client-side functionality.  
+- **Tailwind CSS**: Utility-first framework for responsive and modern styling.  
 
-_<sup>*</sup>front-end elements of Tic Tac Toe board inspired from Web Dev Simplified [Tic Tac Toe project](https://github.com/WebDevSimplified/JavaScript-Tic-Tac-Toe) - one side 2 player functionality_
+### Database
+- **SQLite**: Lightweight and easy-to-use relational database.  
 
-
-## Game specific
-- 2 players ( *x* | *o* );
-- player with 1st move => place mark ( *x* | *o* ):
-- Until (win or draw): player 2 place mark => swap turn => 1st player place mark;
-
-## Implementation logic
----  
-
-In **Online Multiplayer Tic-Tac-Toe** game, processing the moves, handling the connection of the players, players chat and gaming rooms management is provided by the server (in this case with the help of Flask, Flask SocketIO frameworks). As per tic tac toe  rules, there are only two players in one game. This mean that the server has to check the existence of gaming room and if there are already two players before connecting a new one.
+### Key Libraries
+- **Flask-SocketIO**: Real-time WebSocket communication integration.  
+- **Flask-JWT-Extended**: Secure implementation of JSON Web Tokens.  
+- **bcrypt**: Password hashing for enhanced security.  
 
 
-Step 1 - Connection
-* Two clients connect to the server. 
-    * Initial check: existence of the room, number of players;
+---
 
-Step 2 - Player is informed
-* Client receives information about their player id used to map player’s figure (e.g., cross or circle). 
+## ⚙️ Prerequisites
 
-Step 3 - startGame
-* Server starts the match and informs the players about who will start the match when players have agreed to start game.
-    * In the third step, the two players are playing against each other. 
-First, the player will click on a field and that information is sent to the server. 
-The information about the selected field and the next player are sent to the clients by the server in the room. 
-This will be repeated until draw or one player won the game.
+Ensure you have the following installed on your system:
 
+- **Python 3.8+**
+- **pip** (Python package installer)
 
+---
 
-`app.py`
+## 🚀 Installation and Setup
 
-The file where all the fun starts...
-Here is the configuration of Flask and Flask Socket IO frameworks.
-Once configured, the Flask routes are _decorated_ with `@app.route()` and Flask SocketIO handlers are _decorated_ with `@socketio.event`.
-At the bottom of the file, there's `socketio.run(app, debug=True)` that will start the server. 
-_"The `socketio.run()` function encapsulates the startup of the web server and replaces the `app.run()` standard Flask development server start up."_ [Flask SocketIO](https://flask-socketio.readthedocs.io/en/latest/getting_started.html#initialization)
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/yourusername/multiplayer-tic-tac-toe_game.git
+   cd multiplayer-tic-tac-toe
 
-`oophelpers.py`
+2. Create Virtual Environment and Activate It
+   ```bash
+   python -m venv venv
+   venv\Scripts\activate
 
-There’s the modeling of `Player()` and `GameRoom()` objects. Within itself, classes define behavior and needed attributes.
+4. Install Dependencies
+   ```bash
+   pip install -r requirements.txt
 
-`templates/`
+6. Run the Application
+   ```bash
+   python app.py
 
-Basically, the `templates/index.html` is just an HTML page that describe the content of the page - board game and logs area. On top of the page there's "Greetings view" as a modal view that will change the state: `display: show` -> `display: none` when the server event is emit the room availability. 
-
-`static/styles/`
-
-That's where are the CSS files used to describe the aesthetics of the page.
-
-`static/scripts/`
-
-In the `main.js` file are the scripts that make webapp interaction possible.
-The file starts with the "_VARIABLE DECLARATIONS_" at the top, afterwards on `joinButton`'s `addEventListener` anonymous function is verified the `roomAvailability()` by the mean of `async` & `await` functions. Once the room availability is confirmed, the `userConnectedHandlers()` are called. The chat and game function are provided throughout the EventListener attached to *sendButton*, *startGameButton*, *restartButton* buttons.
-
-
-`requirements.txt`
-
-That file simply prescribes the dependencies packages for this web app.
-
-
-
-Reproduce web application
-=========================
-
-One way to run this application: 
-- create a Python virtual environment;
-```bash
-python -m venv [directory]
-```
-
-- install the requirements in virtual environment;
-```bash
-pip install -r requirements.txt
-```
-- run `python app.py` or `flask run` and visit `http://localhost:5000` in two separate browser tabs.
-```bash
-python app.py
-```
-or
-```bash
-flask run
-```
-
-#### Containerization using docker
-
-Build an Image from the Dockerfile
-```bash
-docker build -t <img_name> .        
-```
-```bash
-docker build -t flask-tictactoe .        
-```
-
-Run a container in background with and publish a container’s port(s) to the host
-```bash
-docker run -d -p <host_port>:<container_port> <image_name>    
-```
-```bash
-docker run -d -p 80:5000 flask-tictactoe  
-```
-
-Acces the container in browser using: `http://localhost` or `http://127.0.0.1`
+## Open your browser and navigate to:
+http://127.0.0.1:5000
